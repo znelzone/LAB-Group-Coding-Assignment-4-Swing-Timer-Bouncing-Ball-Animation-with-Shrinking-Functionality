@@ -9,15 +9,37 @@ import java.util.Random;
 public class View implements ActionListener
 {
     
-    private JFrame frame = new JFrame ("Bouncing Ball");
-    private JPanel pane = new JPanel (new BorderLayout());
+    private JFrame frame;
+    private JPanel pane;
+
+    private JButton start;
+    private JButton pause;
+    private JButton resume;
+    private JButton restart;
 
 
-    private JButton start = new JButton ("Start");
-    private JButton pause = new JButton ("Pause");
-    private JButton resume = new JButton ("Resume");
-    private JButton restart = new JButton ("Restart");
+    //constructor
+
+
+    /**
+     * Constructor for the bouncing ball animation main window.
+     * 
+     * @since 11-1-2026
+     */
+    public View(){
+
+        System.out.println("Main Bouncing Ball View Window is Being Called!");
     
+    frame = new JFrame ("Bouncing Ball");
+    pane = new JPanel (new BorderLayout());
 
+
+    start = new JButton ("Start");
+    pause = new JButton ("Pause");
+    resume = new JButton ("Resume");
+    restart = new JButton ("Restart");
+
+
+    }
 
 }
