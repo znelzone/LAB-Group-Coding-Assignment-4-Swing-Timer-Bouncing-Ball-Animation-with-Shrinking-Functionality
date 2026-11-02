@@ -2,17 +2,31 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+
+
+/**
+ * Represents the bouncing ball for the animation in View.
+ * 
+ * @author Zackary Nelson
+ * @version 11-2-2026
+ * @since 11-2-2026
+ */
 public class Ball {
     private Point center;
     private int radius;
     private int dx;
     private int dy;
 
+    private ImageIcon ballPNG;
+
     public Ball(Point center, int radius, int dx, int dy) {
         this.center = new Point(center);
         this.radius = radius;
         this.dx = dx;
         this.dy = dy;
+
+        ballPNG = new ImageIcon("BouncingBall.png");
     }
 
 
@@ -56,18 +70,13 @@ public class Ball {
     }
 
     public void draw(Graphics g) {
-        //gives color RED
-        g.setColor(Color.RED);
 
-        g.fillOval(
-            //
-            center.x - radius,
-            //
-            center.y - radius,
-            //
-            radius * 2,
-            //
-            radius * 2
-        );
+        g.drawImage(ballPNG.getImage(),
+        center.x - radius,
+        center.y - radius,
+        radius * 2,
+        radius * 2,
+        null
+    );
     }
 }

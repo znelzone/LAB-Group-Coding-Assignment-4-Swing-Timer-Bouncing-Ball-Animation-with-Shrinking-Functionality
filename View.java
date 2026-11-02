@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 import java.util.concurrent.Flow;
 
+import java.swing.ImageIcon;
+
 
 /**
  * View creates the window where the inputs/animation will
@@ -60,7 +62,7 @@ public class View implements ActionListener, PropertyChangeListener {
     private int BALL_OG_RADIUS = 100;
     private int OG_DX_AND_DY = 3;
 
-    private boolean ballHasStarted = false;
+    private boolean hasStarted = false;
 
 
     /**
@@ -148,7 +150,11 @@ public class View implements ActionListener, PropertyChangeListener {
          * @param e the action event handled by this method
          */
         public void actionPerformed(ActionEvent e){
-            ballTimer.start();
+
+            if(!hasStarted){
+             ballTimer.start();
+             hasStarted = true;   
+            }
             System.out.println("Start Button Clicked!");
         }
     }
@@ -164,6 +170,10 @@ public class View implements ActionListener, PropertyChangeListener {
          */
         public void actionPerformed(ActionEvent e){
         
+            if(!hasStarted){
+                return;
+            }
+
             if(ballTimer.isRunning() || ball.getCenter().equals(new Point(BALL_CENTER_OG_VALUES, BALL_CENTER_OG_VALUES))){
                 ballTimer.stop();
             } else {
@@ -184,6 +194,8 @@ public class View implements ActionListener, PropertyChangeListener {
          */
         public void actionPerformed(ActionEvent e){
         
+                hasStarted = false;
+
                 //removed is running condition was preventing the reset from happening
                 //when paused
 
