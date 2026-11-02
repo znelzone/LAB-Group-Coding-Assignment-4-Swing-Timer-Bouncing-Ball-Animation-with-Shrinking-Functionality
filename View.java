@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 import java.util.concurrent.Flow;
 
-import java.swing.ImageIcon;
+import javax.swing.ImageIcon;
 
 
 /**
@@ -17,7 +17,7 @@ import java.swing.ImageIcon;
  * @version 11-2-2026
  * @since   11-1-2026
  */
-public class View implements ActionListener, PropertyChangeListener {
+public class View{
     
     private JFrame frame = new JFrame ("Bouncing Ball");
     private JPanel pane = new JPanel(new BorderLayout());
