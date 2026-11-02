@@ -10,12 +10,11 @@ import java.util.Random;
  * View creates the window where the inputs/animation will
  * be presented to the user.
  * 
- * @author Zackary Nelson, Bradley Patton, Peyton Slusser, Ulises Royal
+ * @author  Zackary Nelson, Bradley Patton, Peyton Slusser, Ulises Royal
  * @version 11-1-2026
  * @since   11-1-2026
  */
-public class View implements ActionListener
-{
+public class View implements ActionListener {
     
     private JFrame frame;
     private JPanel pane;
@@ -25,10 +24,6 @@ public class View implements ActionListener
     private JButton resume;
     private JButton restart;
 
-
-    //constructor
-
-
     /**
      * Constructor for the bouncing ball animation main window.
      * 
@@ -36,11 +31,10 @@ public class View implements ActionListener
      */
     public View(){
 
-        System.out.println("Main Bouncing Ball View Window is Being Called!");
+    System.out.println("Main Bouncing Ball View Window is Being Called!");
     
     frame = new JFrame ("Bouncing Ball");
     pane = new JPanel (new BorderLayout());
-
 
     start = new JButton ("Start");
     pause = new JButton ("Pause");
@@ -49,5 +43,4 @@ public class View implements ActionListener
 
 
     }
-
 }
