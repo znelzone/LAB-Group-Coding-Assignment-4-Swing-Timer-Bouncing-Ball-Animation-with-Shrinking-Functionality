@@ -23,9 +23,19 @@ public class View implements ActionListener, PropertyChangeListener {
     private JButton start = new JButton ("Start");
 
     private JButton pauseResumeButton = new JButton ("Pause/Resume");
+
     private JButton reset = new JButton ("Reset");
 
-    private JPanel ballAnimationPanel = new JPanel();
+    private JPanel ballAnimationPanel = new JPanel(){
+        @Override
+        protected void paintComponent(Graphics g){
+            super.paintComponent(g);
+
+            if(ball != null){
+                ball.draw(g);
+            }
+        }
+    };
 
 
     private JPanel inputPanel = new JPanel(new FlowLayout());
@@ -40,6 +50,18 @@ public class View implements ActionListener, PropertyChangeListener {
 
     private  int userInput;
 
+    //bouncing ball stuff
+    private Ball ball;
+    private ImageIcon ballImage;
+
+    private Timer ballTimer;
+
+    private int BALL_CENTER_OG_VALUES = 100;
+    private int BALL_OG_RADIUS = 100;
+    private int OG_DX_AND_DY = 3;
+
+    private boolean ballHasStarted = false;
+
 
     /**
      * Constructor for the bouncing ball animation main window.
@@ -53,6 +75,11 @@ public class View implements ActionListener, PropertyChangeListener {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setLocationRelativeTo(null);
 
+    start.addActionListener(new startButtonHandler());
+    pauseResumeButton.addActionListener(new pauseResumeButtonHandler());
+    reset.addActionListener(new resetButtonHandler());
+
+
     //input panels
     timeInputField.setPreferredSize(new Dimension(150, 25));
     inputPanel.add(timeInputLabel);
@@ -63,6 +90,8 @@ public class View implements ActionListener, PropertyChangeListener {
     
     //animation panel
     ballAnimationPanel.setPreferredSize(new Dimension(600, 400));
+
+    ball = new Ball(new Point(100,100), 100, 3,3);
 
     //progress panels
     progressPanel.add(progressLabel);
@@ -81,5 +110,119 @@ public class View implements ActionListener, PropertyChangeListener {
     frame.setResizable(false);
 
 
+    ballTimer = new Timer(10, new TimerListener());
+    }
+
+    /**
+     * Private helper method determines if the ball needs to reverse course on the x axis.
+     * 
+     * @return boolean representing if the ball needs to bounce/reverse
+     */
+    private boolean boundaryX(){
+        if(ball.getCenter().x - ball.getRadius() <= 0 || ball.getCenter().x + ball.getRadius() >= ballAnimationPanel.getWidth()){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Private helper method determines in the ball needs to reverse course on the y axis.
+     * 
+     * @return boolean representing if the ball needs to bounce/reverse
+     */
+    private boolean boundaryY(){
+        if(ball.getCenter().y - ball.getRadius() <= 0 || ball.getCenter().y + ball.getRadius() >= ballAnimationPanel.getHeight()){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Private inner class startButtonHandler provides action listender for the start button
+     */
+    private class startButtonHandler implements ActionListener{
+        /**
+         * Method starts the timer
+         * 
+         * @param e the action event handled by this method
+         */
+        public void actionPerformed(ActionEvent e){
+            ballTimer.start();
+            System.out.println("Start Button Clicked!");
+        }
+    }
+
+    /**
+     * Private inner class stopButtonHandler provides action listener for the stop button.
+     */
+    private class pauseResumeButtonHandler implements ActionListener{
+        /**
+         * method starts the timer
+         * 
+         * @param e the action event handled by this method
+         */
+        public void actionPerformed(ActionEvent e){
+        
+            if(ballTimer.isRunning() || ball.getCenter().equals(new Point(BALL_CENTER_OG_VALUES, BALL_CENTER_OG_VALUES))){
+                ballTimer.stop();
+            } else {
+                ballTimer.start();
+            }
+            System.out.println("Pause Button CLicked!");
+        }
+    }
+
+    /**
+     * Private inner Class resetButtonListener provides action listener for the resetButton.
+     */
+    private class resetButtonHandler implements ActionListener{
+        /**
+         * Method starts the timer
+         * 
+         * @param e the action event handled by this method
+         */
+        public void actionPerformed(ActionEvent e){
+        
+                //removed is running condition was preventing the reset from happening
+                //when paused
+
+                //stop the animation
+                ballTimer.stop();
+
+                //revert balls position to origin
+                ball.setCenter(new Point(BALL_CENTER_OG_VALUES, BALL_CENTER_OG_VALUES));
+                ball.setRadius(BALL_OG_RADIUS);
+                ball.setDx(OG_DX_AND_DY);
+                ball.setDy(OG_DX_AND_DY);
+
+                //redraw ball in og position
+                ballAnimationPanel.repaint();
+        
+            
+            System.out.println("Reset Button Clicked!");
+        }
+        
+    }
+
+    /**
+     * private inner class TimerListener provides the action listener for the swing Timer.
+     */
+    private class TimerListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            //updates the center point location of the ball
+            ball.update();
+
+            //two seperate if so it can reverese both in the case it hits a corner
+            if (boundaryX()){
+                ball.setDx(ball.getDx() * -1);
+            }
+
+            if (boundaryY()){
+                ball.setDy(ball.getDy() * -1);
+            }
+
+            ballAnimationPanel.repaint();
+        }
     }
 }
