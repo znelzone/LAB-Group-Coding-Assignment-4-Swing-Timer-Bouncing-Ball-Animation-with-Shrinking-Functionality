@@ -6,6 +6,14 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 
+/**
+ * View creates the window where the inputs/animation will
+ * be presented to the user.
+ * 
+ * @author Zackary Nelson, Bradley Patton, Peyton Slusser, Ulises Royal
+ * @version 11-1-2026
+ * @since   11-1-2026
+ */
 public class View implements ActionListener
 {
     

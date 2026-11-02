@@ -1,7 +1,10 @@
 /**
- * Driver class starts the program
- * @author Zackary Nelson, Bradley Patton, Peyton Slusser, Ulises Royal.
+ * Driver class starts the bouncing ball animation program by
+ * calling View.
+ * 
+ * @author  Zackary Nelson, Bradley Patton, Peyton Slusser, Ulises Royal.
  * @version 11-1-2026
+ * @since   11-1-2026
  */
 
 public class Driver{
