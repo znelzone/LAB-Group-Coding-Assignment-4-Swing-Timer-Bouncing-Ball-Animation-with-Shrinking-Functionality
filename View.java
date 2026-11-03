@@ -61,6 +61,7 @@ public class View{
 
     private boolean hasStarted = false;
     //timer trackers
+    //totalTime will be milliseconds
     private long totalTime;
     private long timeElapsed;
     private long totalTimeleft;
