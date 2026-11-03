@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-
 
 /**
  * View creates the window where the inputs/animation will
@@ -45,13 +43,9 @@ public class View{
     private JPanel progressPanel = new JPanel(new FlowLayout());
     private JProgressBar bounceProgressBar = new JProgressBar();
     private JLabel progressTimeElapsedLabel = new JLabel("Time Left: 0.00");
-    private double progressCountDown;
-
-    private  int userInput;
 
     //bouncing ball stuff
     private Ball ball;
-    private ImageIcon ballImage;
 
     private Timer ballTimer;
 
@@ -151,19 +145,41 @@ public class View{
          * @param e the action event handled by this method
          */
         public void actionPerformed(ActionEvent e){
+            System.out.println("Start Button Clicked!");
+            
             //Checks to see if text is in block must be positive and no letters
             if(!hasStarted){
                 if(timeInputField.getText().isEmpty()){
                     return;
+                } 
+
+                try { double secs = Double.parseDouble(timeInputField.getText());
+
+                if(secs <= 0){
+                    //handles when a number is less than or equal to zero.
+                    JOptionPane.showMessageDialog(frame,
+                        "Please enter a time greater than zero.",
+                        "Invalid Time",
+                        JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-                double secs = Double.parseDouble(timeInputField.getText());
+
+                //handles time elapsed and starts the ball bouncing
                 totalTime = (long) (secs * 1000);
                 timeElapsed = 0;
                 totalTimeleft = System.nanoTime();
                 ballTimer.start();
                 hasStarted = true;
+                    
+                } catch (NumberFormatException ex) {
+                    //catches when text is entered into the timeInputField rather than ints/numbers
+                    JOptionPane.showMessageDialog(frame,
+                        "Please enter a valid number.",
+                        "Invalid Time",
+                        JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
-            System.out.println("Start Button Clicked!");
         }
     }
 
@@ -177,7 +193,8 @@ public class View{
          * @param e the action event handled by this method
          */
         public void actionPerformed(ActionEvent e){
-        
+            System.out.println("Pause Button CLicked!");
+            
             if(!hasStarted){
                 return;
             }
@@ -187,7 +204,6 @@ public class View{
             } else {
                 ballTimer.start();
             }
-            System.out.println("Pause Button CLicked!");
         }
     }
 
