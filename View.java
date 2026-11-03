@@ -1,10 +1,7 @@
 import javax.swing.*;
-import java.beans.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
-import java.util.concurrent.Flow;
 
 import javax.swing.ImageIcon;
 
@@ -47,7 +44,7 @@ public class View{
     private JLabel progressLabel = new JLabel("Bouncing Ball Progress:");
     private JPanel progressPanel = new JPanel(new FlowLayout());
     private JProgressBar bounceProgressBar = new JProgressBar();
-    private JLabel progressTimeElapsedLabel = new JLabel("Time Elapsed: ");
+    private JLabel progressTimeElapsedLabel = new JLabel("Time Left: 0.00");
     private double progressCountDown;
 
     private  int userInput;
@@ -63,7 +60,10 @@ public class View{
     private int OG_DX_AND_DY = 3;
 
     private boolean hasStarted = false;
-
+    //timer trackers
+    private long totalTime;
+    private long timeElapsed;
+    private long totalTimeleft;
 
     /**
      * Constructor for the bouncing ball animation main window.
@@ -150,10 +150,17 @@ public class View{
          * @param e the action event handled by this method
          */
         public void actionPerformed(ActionEvent e){
-
+            //Checks to see if text is in block must be positive and no letters
             if(!hasStarted){
-             ballTimer.start();
-             hasStarted = true;   
+                if(timeInputField.getText().isEmpty()){
+                    return;
+                }
+                double secs = Double.parseDouble(timeInputField.getText());
+                totalTime = (long) (secs * 1000);
+                timeElapsed = 0;
+                totalTimeleft = System.nanoTime();
+                ballTimer.start();
+                hasStarted = true;
             }
             System.out.println("Start Button Clicked!");
         }
@@ -183,6 +190,7 @@ public class View{
         }
     }
 
+
     /**
      * Private inner Class resetButtonListener provides action listener for the resetButton.
      */
@@ -194,7 +202,10 @@ public class View{
          */
         public void actionPerformed(ActionEvent e){
         
-                hasStarted = false;
+            hasStarted = false;
+            timeElapsed = 0;
+            bounceProgressBar.setValue(0);
+            progressTimeElapsedLabel.setText("Time Left: 0.00");
 
                 //removed is running condition was preventing the reset from happening
                 //when paused
@@ -224,6 +235,23 @@ public class View{
         public void actionPerformed(ActionEvent e){
             //updates the center point location of the ball
             ball.update();
+
+            //countdown timer and ball shrink rate
+            timeElapsed += 10;
+
+            double fraction = (double) timeElapsed / totalTime;
+            if (fraction > 1) {
+                fraction = 1;
+            }
+
+            ball.setRadius((int) (BALL_OG_RADIUS * (1 - fraction)));
+            bounceProgressBar.setValue((int) (fraction * 100));
+
+            double timeLeft = (totalTime - timeElapsed) / 1000.0;
+            if (timeLeft < 0) {
+                timeLeft = 0;
+            }
+            progressTimeElapsedLabel.setText(String.format("Time Left: %.2f", timeLeft));
 
             //two seperate if so it can reverese both in the case it hits a corner
             if (boundaryX()){
