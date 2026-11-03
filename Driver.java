@@ -11,8 +11,9 @@ public class Driver{
     
 
     /**
-     * Main method
-     * @param args
+     * Main method starts the program by initializing the viewing window.
+     * 
+     * @param args command line arguments
      */
     public static void main (String[] args){
 
