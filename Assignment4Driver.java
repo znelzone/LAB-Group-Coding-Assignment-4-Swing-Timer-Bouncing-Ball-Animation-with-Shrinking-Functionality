@@ -7,7 +7,7 @@
  * @since   11-1-2026
  */
 
-public class Driver{
+public class Assignment4Driver{
     
 
     /**
