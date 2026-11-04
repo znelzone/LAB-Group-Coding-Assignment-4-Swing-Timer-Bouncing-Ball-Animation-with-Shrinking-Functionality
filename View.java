@@ -15,7 +15,9 @@ import java.awt.event.ActionListener;
 public class View{
     
     private JFrame frame = new JFrame ("Bouncing Ball");
+    private JPanel otherPane = new JPanel(new BorderLayout());
     private JPanel pane = new JPanel(new BorderLayout());
+
 
     private JButton start = new JButton ("Start");
 
@@ -101,11 +103,14 @@ public class View{
     pane.add(ballAnimationPanel, BorderLayout.CENTER);
     pane.add(progressPanel, BorderLayout.SOUTH);
 
+
+    otherPane.add(pane, BorderLayout.EAST);
+
     //final formalizing of the window frame with all previously designed information
-    frame.add(pane);
+    frame.add(otherPane);
     frame.pack();
     frame.setVisible(true);
-    frame.setResizable(false);
+    frame.setResizable(true);
 
 
     ballTimer = new Timer(10, new TimerListener());
