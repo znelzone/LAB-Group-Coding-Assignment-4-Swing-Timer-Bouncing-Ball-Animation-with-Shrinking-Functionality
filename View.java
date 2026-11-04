@@ -105,7 +105,7 @@ public class View{
     frame.add(pane);
     frame.pack();
     frame.setVisible(true);
-    frame.setResizable(true);
+    frame.setResizable(false);
 
 
     ballTimer = new Timer(10, new TimerListener());
